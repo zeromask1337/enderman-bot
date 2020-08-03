@@ -21,7 +21,15 @@ bot.command("/search", (ctx) => {
     .then((json) => {
       for (let item of json) {
         if (item.name.toUpperCase().indexOf(searchItem) > -1) {
-          ctx.reply(item);
+          if (item.meta <= 0) {
+            ctx.replyWithHTML(
+              `<code>${item.type}</code>  ${item.name}  <i>(minecraft:${item.text_type})</i>`
+            );
+          } else {
+            ctx.replyWithHTML(
+              `<code>${item.type}:${item.meta}</code>  ${item.name}  <i>(minecraft: <b>${item.text_type}</b>)</i>`
+            );
+          }
         }
       }
     });
