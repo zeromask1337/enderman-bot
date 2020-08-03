@@ -13,6 +13,10 @@ bot.help((ctx) =>
     .then((res) => res.json())
     .then((json) => ctx.reply(json[20].name))
 );
-// bot.on("sticker", (ctx) => ctx.reply("👍"));
+bot.command("/search", (ctx) => {
+  searchItem = ctx.message.text.split(" ")[1];
+  //   id = arr[1];
+  console.log(searchItem);
+});
 // bot.hears("hi", (ctx) => ctx.reply("Hey there"));
 bot.launch();
