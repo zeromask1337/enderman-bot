@@ -14,9 +14,17 @@ bot.help((ctx) =>
     .then((json) => ctx.reply(json[20].name))
 );
 bot.command("/search", (ctx) => {
-  searchItem = ctx.message.text.split(" ")[1];
-  //   id = arr[1];
+  searchItem = ctx.message.text.toUpperCase().split(" ")[1];
   console.log(searchItem);
+  fetch("http://minecraft-ids.grahamedgecombe.com/items.json")
+    .then((res) => res.json())
+    .then((json) => {
+      for (let item of json) {
+        if (item.name.toUpperCase().indexOf(searchItem) > -1) {
+          ctx.reply(item);
+        }
+      }
+    });
 });
 // bot.hears("hi", (ctx) => ctx.reply("Hey there"));
 bot.launch();
