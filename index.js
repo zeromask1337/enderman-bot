@@ -1,4 +1,5 @@
 const { Telegraf } = require("telegraf");
+const fs = require("fs");
 require("dotenv").config();
 const fetch = require("node-fetch");
 
@@ -22,6 +23,7 @@ bot.command("/search", (ctx) => {
       for (let item of json) {
         if (item.name.toUpperCase().indexOf(searchItem) > -1) {
           if (item.meta <= 0) {
+            // ctx.replyWithPhoto(`./img/`)
             ctx.replyWithHTML(
               `<code>${item.type}</code>  ${item.name}  <i>(minecraft:${item.text_type})</i>`
             );
@@ -34,5 +36,21 @@ bot.command("/search", (ctx) => {
       }
     });
 });
-// bot.hears("hi", (ctx) => ctx.reply("Hey there"));
+
+bot.hears("hi", (ctx) =>
+  fetch("http://minecraft-ids.grahamedgecombe.com/items.json")
+    .then((res) => res.json())
+    .then((json) => {
+      ctx.replyWithPhoto(`./img/${json.type}-${json.meta}`);
+      // {
+      //   const dir = "./img";
+      //   const files = fs.readdirSync(dir);
+      //   for (file of files) {
+      //     filename = file.split(".").slice(0, -1).join(".");
+      //     number = filename.split("-")[0];
+      //     meta = filename.split("-")[1];
+      //     console.log(`${filename}:  ${number} + ${meta}`);
+      //   }
+    })
+);
 bot.launch();
